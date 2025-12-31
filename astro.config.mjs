@@ -4,10 +4,14 @@ import AutoImport from 'astro-auto-import';
 import tailwindcss from '@tailwindcss/vite';
 import embeds from 'astro-embed/integration';
 import expressiveCode from 'astro-expressive-code';
+import mermaid from 'astro-mermaid';
 
 // https://astro.build/config
 export default defineConfig({
   integrations: [
+    mermaid({
+      autoTheme: true,
+    }),
     AutoImport({
       imports: [
         // Core components
