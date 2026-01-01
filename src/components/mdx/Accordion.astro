@@ -6,6 +6,8 @@
  *   Hidden content here
  * </Accordion>
  */
+import Icon from '../Icon.astro';
+
 interface Props {
   title: string;
   icon?: string;
@@ -14,12 +16,19 @@ interface Props {
 
 const { title, icon, defaultOpen = false } = Astro.props;
 const id = `accordion-${Math.random().toString(36).slice(2, 9)}`;
+
+// Check if icon is an Iconify name (contains :) or an emoji
+const isIconifyIcon = icon?.includes(':');
 ---
 
 <details class="accordion not-prose" open={defaultOpen} id={id}>
   <summary class="accordion-header">
     <div class="accordion-title">
-      {icon && <span class="accordion-icon">{icon}</span>}
+      {icon && (
+        <span class="accordion-icon">
+          {isIconifyIcon ? <Icon name={icon} size={18} /> : icon}
+        </span>
+      )}
       <span>{title}</span>
     </div>
     <svg class="accordion-chevron" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
