@@ -1,21 +1,36 @@
 ---
 interface Props {
-  variant?: 'default' | 'success' | 'warning' | 'danger' | 'info';
+  variant?: 'default' | 'success' | 'warning' | 'danger' | 'info' | 'primary';
 }
 
 const { variant = 'default' } = Astro.props;
 
+// Theme-aware variants using CSS variables
 const variants = {
   default: 'bg-muted text-muted-foreground border-border',
-  success: 'bg-emerald-950/50 text-emerald-400 border-emerald-900',
-  warning: 'bg-amber-950/50 text-amber-400 border-amber-900',
-  danger: 'bg-red-950/50 text-red-400 border-red-900',
-  info: 'bg-blue-950/50 text-blue-400 border-blue-900',
+  success: 'bg-success-light text-success border-success/30',
+  warning: 'bg-warning-light text-warning border-warning/30',
+  danger: 'bg-danger-light text-danger border-danger/30',
+  info: 'bg-info-light text-info border-info/30',
+  primary: 'bg-primary-100 text-primary-700 border-primary-300',
 };
 
 const style = variants[variant];
 ---
 
-<span class={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium border ${style} align-middle mx-1`}>
+<span class={`badge ${style}`}>
   <slot />
 </span>
+
+<style>
+  @reference "../../styles/global.css";
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium border align-middle;
+    transition: all 150ms ease;
+  }
+
+  .badge:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-xs);
+  }
+</style>
