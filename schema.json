@@ -55,6 +55,7 @@
     },
     "navigation": {
       "type": "object",
+      "description": "Navigation configuration. Supports locale-specific sidebars using 'sidebar.{locale}' keys (e.g., 'sidebar.es', 'sidebar.fr')",
       "properties": {
         "navbar": {
           "type": "object",
@@ -82,6 +83,7 @@
         },
         "sidebar": {
           "type": "array",
+          "description": "Default sidebar navigation (used for default locale and as fallback)",
           "items": {
             "type": "object",
             "properties": {
@@ -94,13 +96,26 @@
                   "properties": {
                     "label": { "type": "string" },
                     "slug": { "type": "string" },
+                    "href": { "type": "string" },
                     "icon": { "type": "string" }
                   },
-                  "required": ["label", "slug"]
+                  "required": ["label"]
                 }
               }
             },
             "required": ["label"]
+          }
+        }
+      },
+      "additionalProperties": {
+        "description": "Locale-specific sidebars (e.g., 'sidebar.es', 'sidebar.fr')",
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "label": { "type": "string" },
+            "icon": { "type": "string" },
+            "items": { "type": "array" }
           }
         }
       }
@@ -146,6 +161,50 @@
           "type": "object",
           "properties": {
             "enabled": { "type": "boolean" }
+          }
+        },
+        "copyPage": {
+          "type": "object",
+          "description": "Copy page and AI integration settings",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true,
+              "description": "Enable the copy page floating action button"
+            },
+            "position": {
+              "type": "string",
+              "enum": ["bottom-right", "bottom-left", "top-right", "top-left"],
+              "default": "bottom-right",
+              "description": "Position of the floating action button"
+            },
+            "aiProviders": {
+              "type": "array",
+              "description": "AI providers to show in the menu",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Provider identifier (chatgpt, claude, gemini, perplexity, or custom)"
+                  },
+                  "label": {
+                    "type": "string",
+                    "description": "Display label for the provider"
+                  },
+                  "icon": {
+                    "type": "string",
+                    "description": "Icon name from Iconify (e.g., simple-icons:openai)"
+                  }
+                },
+                "required": ["name", "label", "icon"]
+              }
+            },
+            "contextPrompt": {
+              "type": "string",
+              "default": "I'm reading this documentation page and would like your help understanding it:",
+              "description": "Prompt prefix when opening in AI tools"
+            }
           }
         }
       }
@@ -203,6 +262,120 @@
           "type": "boolean",
           "default": true,
           "description": "Enable breadcrumb JSON-LD structured data"
+        }
+      }
+    },
+    "i18n": {
+      "type": "object",
+      "description": "Internationalization configuration",
+      "properties": {
+        "defaultLocale": {
+          "type": "string",
+          "default": "en",
+          "description": "The default locale for the documentation site"
+        },
+        "locales": {
+          "type": "array",
+          "items": { "type": "string" },
+          "default": ["en"],
+          "description": "List of supported locales (e.g., ['en', 'es', 'fr'])"
+        },
+        "routing": {
+          "type": "object",
+          "properties": {
+            "prefixDefaultLocale": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether to include the default locale in the URL path"
+            }
+          }
+        },
+        "translations": {
+          "type": "object",
+          "description": "Custom translations for UI strings, keyed by locale",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          }
+        }
+      }
+    },
+    "versioning": {
+      "type": "object",
+      "description": "Documentation versioning configuration",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable versioning support"
+        },
+        "defaultVersion": {
+          "type": "string",
+          "description": "Default version to display (e.g., 'latest', 'v2')"
+        },
+        "versions": {
+          "type": "array",
+          "description": "List of available versions",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Version identifier (e.g., 'v1', 'v2', 'latest')"
+              },
+              "label": {
+                "type": "string",
+                "description": "Display label (e.g., 'Version 1.0', 'Latest')"
+              },
+              "path": {
+                "type": "string",
+                "description": "Folder path for this version (e.g., 'v1', 'latest')"
+              },
+              "deprecated": {
+                "type": "boolean",
+                "default": false,
+                "description": "Mark version as deprecated"
+              }
+            },
+            "required": ["id", "label", "path"]
+          }
+        },
+        "versionBanner": {
+          "type": "object",
+          "description": "Banner configuration for non-latest versions",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true,
+              "description": "Show a banner on non-latest version pages"
+            },
+            "message": {
+              "type": "string",
+              "default": "You are viewing documentation for an older version.",
+              "description": "Banner message (use {version} and {latest} placeholders)"
+            }
+          }
+        }
+      }
+    },
+    "assets": {
+      "type": "object",
+      "description": "Custom assets configuration",
+      "properties": {
+        "images": {
+          "type": "string",
+          "default": "_images",
+          "description": "Folder name for custom images (copied to public/images/)"
+        },
+        "css": {
+          "type": "string",
+          "default": "_css",
+          "description": "Folder name for custom CSS files"
+        },
+        "static": {
+          "type": "string",
+          "default": "_assets",
+          "description": "Folder name for static assets (copied to public/assets/)"
         }
       }
     }
