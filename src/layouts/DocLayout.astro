@@ -4,6 +4,8 @@ import Footer from '../components/Footer.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import PrevNextNav from '../components/PrevNextNav.astro';
+import VersionBanner from '../components/VersionBanner.astro';
+import CopyPageButton from '../components/CopyPageButton.astro';
 import type { SEOFrontmatter } from '../types/seo';
 import { getConfigFile } from '../utils/config';
 
@@ -63,7 +65,11 @@ if (!found && currentSlug) {
 <Layout title={title} description={description} frontmatter={frontmatter} breadcrumbs={breadcrumbs}>
   <main class="main-content pt-16">
     <article class="docs-prose">
-      <Breadcrumbs />
+      <div class="article-header">
+        <Breadcrumbs />
+        <CopyPageButton />
+      </div>
+      <VersionBanner />
       <slot />
       <PrevNextNav />
     </article>
