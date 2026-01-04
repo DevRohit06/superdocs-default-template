@@ -1,16 +1,36 @@
 ---
-import { getConfigFile } from "../utils/config";
+import { getConfigFile, getLocalizedSidebar } from "../utils/config";
+import { getI18nConfig, getLocaleFromPath } from "../utils/i18n";
 import SidebarGroup from "./SidebarGroup.astro";
 
 const config = await getConfigFile();
+const i18nConfig = await getI18nConfig();
 const currentPath = Astro.url.pathname;
+
+// Get current locale from URL
+const currentLocale = getLocaleFromPath(currentPath, i18nConfig.locales) || i18nConfig.defaultLocale;
+
+// Get locale-specific sidebar (falls back to default if not found)
+const sidebarItems = getLocalizedSidebar(currentLocale, i18nConfig.defaultLocale);
+
+// For localized content, we need to adjust hrefs to include locale prefix
+const localizeHref = (href: string) => {
+  if (currentLocale === i18nConfig.defaultLocale) {
+    return href;
+  }
+  // Add locale prefix if not already present
+  if (!href.startsWith(`/${currentLocale}/`) && !href.startsWith('http')) {
+    return `/${currentLocale}${href.startsWith('/') ? href : '/' + href}`;
+  }
+  return href;
+};
 ---
 
 <aside class="sidebar scrollbar-hide">
   <nav class="px-2 mt-2 pb-6 space-y-6">
     {
-      config.navigation.sidebar.map((group) => (
-        <SidebarGroup group={group} currentPath={currentPath} />
+      sidebarItems.map((group: any) => (
+        <SidebarGroup group={group} currentPath={currentPath} localizeHref={localizeHref} />
       ))
     }
   </nav>
