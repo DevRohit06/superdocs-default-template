@@ -1,17 +1,17 @@
-# SuperDocs Default Template
+# Lito Default Template
 
-The official default template for [SuperDocs](https://github.com/DevRohit06/superdocs).
+The official default template for [Lito](https://github.com/Lito-docs/cli).
 
 ## Usage
 
-This template is automatically used by SuperDocs:
+This template is automatically used by Lito:
 
 ```bash
 # Uses this template by default
-superdocs dev -i ./your-docs
+lito dev -i ./your-docs
 
 # Or explicitly specify it
-superdocs dev -i ./your-docs --template github:DevRohit06/superdocs-default-template
+lito dev -i ./your-docs --template github:Lito-docs/template
 ```
 
 ## Customization
@@ -23,7 +23,7 @@ superdocs dev -i ./your-docs --template github:DevRohit06/superdocs-default-temp
 3. Use your fork:
 
 ```bash
-superdocs dev -i ./docs --template github:YOUR_USERNAME/superdocs-default-template
+lito dev -i ./docs --template github:YOUR_USERNAME/lito-default-template
 ```
 
 ### Local Development
@@ -33,7 +33,7 @@ superdocs dev -i ./docs --template github:YOUR_USERNAME/superdocs-default-templa
 3. Use it locally:
 
 ```bash
-superdocs dev -i ./docs --template ./path/to/this/folder
+lito dev -i ./docs --template ./path/to/this/folder
 ```
 
 ## Structure
@@ -59,7 +59,7 @@ superdocs dev -i ./docs --template ./path/to/this/folder
 
 ### Requirements
 
-A valid SuperDocs template must have:
+A valid Lito template must have:
 - `astro.config.mjs`
 - `package.json` with Astro dependencies
 - `src/pages/` directory for routing
